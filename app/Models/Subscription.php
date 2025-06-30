@@ -13,7 +13,7 @@ class Subscription extends Model
     protected $fillable = [
         'name',
         'type',
-        'first_payment',
+        'payment_date',
         'note',
         'user_id',
         'payment',
@@ -21,7 +21,7 @@ class Subscription extends Model
     ];
 
     protected $casts = [
-        'first_payment' => 'date',
+        'payment_date' => 'date',
         'payment' => 'decimal:2'
     ];
 

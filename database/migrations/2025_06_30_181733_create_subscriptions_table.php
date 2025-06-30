@@ -15,7 +15,7 @@ return new class extends Migration
              $table->id();
             $table->string('name');
             $table->enum('type', ['monthly', 'yearly']);
-            $table->date('first_payment');
+            $table->date('payment_date');
             $table->foreignId('user_id')->constrained()->onDelete('cascade');
             $table->decimal('payment', 10, 2);
             $table->string('category');
