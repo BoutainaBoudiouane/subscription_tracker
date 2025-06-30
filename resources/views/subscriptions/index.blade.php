@@ -60,7 +60,7 @@
             <!-- Table View for Desktop -->
             <div class="bg-white rounded-xl shadow-lg border border-gray-100 overflow-hidden">
                 <div class="px-6 py-4 border-b border-gray-200 bg-gray-50">
-                    <h3 class="text-lg font-semibold text-gray-900">Detailed View</h3>
+                    <h2 class="text-lg font-semibold text-gray-900">Detailed View</h2>
                 </div>
                 <div class="overflow-x-auto">
                     <table class="min-w-full divide-y divide-gray-200">
