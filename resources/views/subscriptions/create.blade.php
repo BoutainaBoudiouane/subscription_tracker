@@ -26,7 +26,7 @@
                         </svg>
                     </div>
                     <div>
-                        <h2 class="text-xl font-semibold text-gray-900">Subscription Details</h2>
+                        <h2 class="text-xl font-semibold text-gray-900">Add Subscription</h2>
                         <p class="text-gray-500 text-sm">Enter information about your recurring payment</p>
                     </div>
                 </div>

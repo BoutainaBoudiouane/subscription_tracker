@@ -10,7 +10,7 @@
                                 :active="request()->routeIs('dashboard*')">Dashboard</x-layouts.sidebar-link>
 
                             <!-- Example two level -->
-                              <x-layouts.sidebar-link href="{{ route('subscriptions.index') }}" icon='fas-house'
+                              <x-layouts.sidebar-link href="{{ route('subscriptions.index') }}" icon='fas-clipboard-list'
                                 :active="request()->routeIs('subscriptions.index*')">Subscription</x-layouts.sidebar-link>
 
 
