@@ -3,6 +3,8 @@
 use App\Http\Controllers\Settings;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\SubscriptionController;
+use App\Http\Controllers\DashboardController;
+
 
 Route::get('/', function () {
     return view('welcome');
@@ -20,6 +22,9 @@ Route::middleware(['auth'])->group(function () {
     Route::put('settings/password', [Settings\PasswordController::class, 'update'])->name('settings.password.update');
     Route::get('settings/appearance', [Settings\AppearanceController::class, 'edit'])->name('settings.appearance.edit');
     Route::resource('subscriptions', SubscriptionController::class);
+    Route::get('dashboard', [DashboardController::class, 'index'])->name('dashboard');
+
+
 });
 
 require __DIR__.'/auth.php';
