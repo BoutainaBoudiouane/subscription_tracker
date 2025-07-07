@@ -7,7 +7,6 @@
                     <h1 class="text-4xl font-bold tracking-tight">My Subscriptions</h1>
                     <p class="text-indigo-100 mt-2 text-lg">Manage and track all your recurring payments</p>
                 </div>
-
             </div>
         </div>
     </div>
@@ -60,10 +59,28 @@
         <!-- Table View for Desktop -->
         <div class="bg-white rounded-xl shadow-lg border border-gray-100 overflow-hidden">
             <div class="px-6 py-4 border-b border-gray-200 bg-gray-50">
-                <h2 class="text-lg font-semibold text-gray-900">Detailed View</h2>
+                <div class="flex flex-col sm:flex-row justify-between items-start sm:items-center space-y-3 sm:space-y-0">
+                    <h2 class="text-lg font-semibold text-gray-900">Detailed View</h2>
+                    <div class="relative w-full sm:w-80">
+                        <input type="text" 
+                               id="searchInput" 
+                               placeholder="Search subscriptions..." 
+                               class="w-full px-4 py-2 pl-10 pr-4 text-sm border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 bg-white shadow-sm transition-shadow duration-200">
+                        <div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
+                            <svg class="h-4 w-4 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"></path>
+                            </svg>
+                        </div>
+                        <div id="clearSearch" class="absolute inset-y-0 right-0 pr-3 flex items-center cursor-pointer hidden">
+                            <svg class="h-4 w-4 text-gray-400 hover:text-gray-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path>
+                            </svg>
+                        </div>
+                    </div>
+                </div>
             </div>
             <div class="overflow-x-auto">
-                <table class="min-w-full divide-y divide-gray-200">
+                <table class="min-w-full divide-y divide-gray-200" id="subscriptionTable">
                     <thead class="bg-gray-50">
                         <tr>
                             <th class="px-6 py-4 text-left text-xs font-semibold text-gray-500 uppercase tracking-wider">Service</th>
@@ -74,9 +91,9 @@
                             <th class="px-6 py-4 text-left text-xs font-semibold text-gray-500 uppercase tracking-wider">Actions</th>
                         </tr>
                     </thead>
-                    <tbody class="bg-white divide-y divide-gray-200">
+                    <tbody class="bg-white divide-y divide-gray-200" id="subscriptionTableBody">
                         @foreach($subscriptions as $subscription)
-                        <tr class="hover:bg-gray-50 transition-colors">
+                        <tr class="hover:bg-gray-50 transition-colors subscription-row">
                             <td class="px-6 py-4 whitespace-nowrap">
                                 <div class="font-semibold text-gray-900">{{ $subscription->name }}</div>
                                 @if($subscription->note)
@@ -106,21 +123,32 @@
                                 <div class="flex items-center space-x-3">
                                     <a href="{{ route('subscriptions.edit', $subscription) }}"
                                         class="text-indigo-600 hover:text-indigo-900 font-medium">Edit</a>
-                                    <button type="submit"
+                                    <button type="button"
                                         class="text-red-600 hover:text-red-900 font-medium"
                                         onclick="openDeleteModal({{$subscription->id}})">
                                         Delete
                                     </button>
-                                    </form>
                                 </div>
                             </td>
                         </tr>
                         @endforeach
                     </tbody>
                 </table>
+                
+                <!-- No Results Message -->
+                <div id="noResults" class="hidden text-center py-12">
+                    <div class="w-16 h-16 mx-auto mb-4 bg-gray-100 rounded-full flex items-center justify-center">
+                        <svg class="w-8 h-8 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"></path>
+                        </svg>
+                    </div>
+                    <h3 class="text-lg font-semibold text-gray-900 mb-2">No subscriptions found</h3>
+                    <p class="text-gray-500">Try adjusting your search terms or <button id="clearSearchBtn" class="text-indigo-600 hover:text-indigo-900 font-medium underline">clear the search</button> to see all subscriptions.</p>
+                </div>
+                
                 <!-- Delete Confirmation Modal -->
-                <div id="deleteModal" class="fixed inset-0 z-50 hidden items-center justify-center  bg-opacity-40">
-                    <div class="bg-white rounded-xl shadow-xl max-w-md w-full p-6 text-center">
+                <div id="deleteModal" class="fixed inset-0 z-50 hidden items-center justify-center bg-black bg-opacity-40">
+                    <div class="bg-white rounded-xl shadow-xl max-w-md w-full mx-4 p-6 text-center">
                         <h3 class="text-lg font-semibold mb-4 text-gray-900">Are you sure you want to delete?</h3>
                         <p class="text-gray-500 mb-6">This action cannot be undone.</p>
                         <form id="deleteForm" method="POST">
@@ -128,11 +156,11 @@
                             @method('DELETE')
                             <div class="flex justify-center space-x-4">
                                 <button type="button" onclick="closeDeleteModal()"
-                                    class="px-4 py-2 rounded-lg bg-gray-200 hover:bg-gray-300 text-gray-700 font-semibold">
+                                    class="px-4 py-2 rounded-lg bg-gray-200 hover:bg-gray-300 text-gray-700 font-semibold transition-colors">
                                     Cancel
                                 </button>
                                 <button type="submit"
-                                    class="px-4 py-2 rounded-lg bg-red-600 hover:bg-red-700 text-white font-semibold">
+                                    class="px-4 py-2 rounded-lg bg-red-600 hover:bg-red-700 text-white font-semibold transition-colors">
                                     Confirm Delete
                                 </button>
                             </div>
@@ -162,11 +190,87 @@
         @endif
     </div>
 </x-layouts.app>
+
 <script>
+    // Search functionality
+    document.addEventListener('DOMContentLoaded', function() {
+        const searchInput = document.getElementById('searchInput');
+        const tableBody = document.getElementById('subscriptionTableBody');
+        const noResults = document.getElementById('noResults');
+        const clearSearchIcon = document.getElementById('clearSearch');
+        const clearSearchBtn = document.getElementById('clearSearchBtn');
+        
+        // Get all subscription rows
+        const subscriptionRows = tableBody ? tableBody.querySelectorAll('.subscription-row') : [];
+        
+        // Search functionality
+        if (searchInput && subscriptionRows.length > 0) {
+            searchInput.addEventListener('input', function() {
+                const searchTerm = this.value.toLowerCase().trim();
+                let visibleRows = 0;
+                
+                // Show/hide clear icon
+                if (searchTerm) {
+                    clearSearchIcon.classList.remove('hidden');
+                } else {
+                    clearSearchIcon.classList.add('hidden');
+                }
+                
+                subscriptionRows.forEach(row => {
+                    const cells = row.querySelectorAll('td');
+                    let rowText = '';
+                    
+                    // Extract text from each cell (excluding the actions column)
+                    for (let i = 0; i < cells.length - 1; i++) {
+                        rowText += cells[i].textContent.toLowerCase() + ' ';
+                    }
+                    
+                    // Show/hide row based on search term
+                    if (searchTerm === '' || rowText.includes(searchTerm)) {
+                        row.style.display = '';
+                        visibleRows++;
+                    } else {
+                        row.style.display = 'none';
+                    }
+                });
+                
+                // Show/hide no results message
+                if (visibleRows === 0 && searchTerm !== '') {
+                    noResults.classList.remove('hidden');
+                } else {
+                    noResults.classList.add('hidden');
+                }
+            });
+            
+            // Clear search functionality
+            clearSearchIcon.addEventListener('click', function() {
+                searchInput.value = '';
+                searchInput.dispatchEvent(new Event('input'));
+                searchInput.focus();
+            });
+            
+            clearSearchBtn.addEventListener('click', function() {
+                searchInput.value = '';
+                searchInput.dispatchEvent(new Event('input'));
+                searchInput.focus();
+            });
+            
+            // Clear search with Escape key
+            searchInput.addEventListener('keydown', function(e) {
+                if (e.key === 'Escape') {
+                    this.value = '';
+                    this.dispatchEvent(new Event('input'));
+                    this.blur();
+                }
+            });
+        }
+    });
+
+    // Delete modal functions
     function openDeleteModal(subscriptionId) {
         const modal = document.getElementById('deleteModal');
         const form = document.getElementById('deleteForm');
-        form.action = '/subscriptions/' + subscriptionId; // Adjust if your route prefix changes
+        form.action = '/subscriptions/' + subscriptionId;
         modal.classList.remove('hidden');
         modal.classList.add('flex');
     }
@@ -176,4 +280,12 @@
         modal.classList.add('hidden');
         modal.classList.remove('flex');
     }
+
+    // Close modal when clicking outside
+    document.addEventListener('click', function(e) {
+        const modal = document.getElementById('deleteModal');
+        if (e.target === modal) {
+            closeDeleteModal();
+        }
+    });
 </script>
