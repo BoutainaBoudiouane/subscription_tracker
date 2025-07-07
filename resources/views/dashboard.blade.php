@@ -6,6 +6,7 @@
     </div>
 
     <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-6">
+        <!-- entertainment Card -->
         <div class="bg-white dark:bg-gray-800 rounded-lg shadow-sm p-6 border border-gray-200 dark:border-gray-700">
             <div class="flex items-center justify-between">
                 <div>
@@ -45,7 +46,7 @@
             </div>
         </div>
 
-        <!-- Revenue Card -->
+        <!-- uilities Card -->
         <div class="bg-white dark:bg-gray-800 rounded-lg shadow-sm p-6 border border-gray-200 dark:border-gray-700">
             <div class="flex items-center justify-between">
                 <div>
@@ -85,7 +86,7 @@
             </div>
         </div>
 
-        <!-- Orders Card -->
+        <!-- software Card -->
         <div class="bg-white dark:bg-gray-800 rounded-lg shadow-sm p-6 border border-gray-200 dark:border-gray-700">
             <div class="flex items-center justify-between">
                 <div>
@@ -125,11 +126,11 @@
             </div>
         </div>
 
-        <!-- Visitors Card -->
+        <!-- other Card -->
         <div class="bg-white dark:bg-gray-800 rounded-lg shadow-sm p-6 border border-gray-200 dark:border-gray-700">
             <div class="flex items-center justify-between">
                 <div>
-                    <p class="text-xl font-medium text-gray-800 dark:text-gray-400">Other Subscription</p>
+                    <p class="text-xl font-medium text-gray-800 dark:text-gray-400">Other Subscriptions</p>
 
                     <p class="text-2xl font-bold text-gray-800 dark:text-gray-100 mt-1">
                         {{$others->count()}}
@@ -183,6 +184,98 @@
                 <canvas id="subscriptionTypesChart"></canvas>
             </div>
         </div>
+    </div>
+
+   <!-- recent sub-->
+      <div class="col-span-full">
+        <div class="flex items-center justify-between mb-6">
+            <div>
+                <h2 class="text-2xl font-bold text-gray-800 dark:text-gray-100 mb-2">{{ __('Recent Subscriptions') }}</h2>
+                <p class="text-gray-600 dark:text-gray-400">{{ __('Your latest subcriptions finacing') }}</p>
+            </div>
+            <div class="hidden md:flex items-center space-x-4">
+                <div class="flex items-center text-sm text-gray-500 dark:text-gray-400">
+                    <svg class="w-4 h-4 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                            d="M4 6h16M4 10h16M4 14h16M4 18h16" />
+                    </svg>
+                    {{ $recentSub->count() }} {{ __('subscriptions') }}
+                </div>
+            </div>
+        </div>
+
+        @if ($recentSub->count() > 0)
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 mb-8">
+                @foreach ($recentSub as $sub)
+                    <div
+                        class="group bg-white dark:bg-gray-800 rounded-xl shadow-lg border border-gray-200/50 dark:border-gray-700/50 hover:shadow-xl transition-all duration-300 transform hover:-translate-y-2 overflow-hidden">
+                        <div class="p-6">
+                            <!-- Category Badge -->
+                            <div class="flex items-center justify-between mb-4">
+                                <span
+                                    class="inline-flex items-center px-3 py-1 rounded-full text-xs font-semibold
+                                    @if ($sub->category === 'entertainment') bg-gradient-to-r from-purple-100 to-purple-200 text-purple-800 dark:from-purple-900/50 dark:to-purple-800/50 dark:text-purple-200
+                                    @elseif($sub->category === 'utilities') bg-gradient-to-r from-blue-100 to-blue-200 text-blue-800 dark:from-blue-900/50 dark:to-blue-800/50 dark:text-blue-200
+                                    @elseif($sub->category === 'software') bg-gradient-to-r from-green-100 to-green-200 text-green-800 dark:from-green-900/50 dark:to-green-800/50 dark:text-green-200
+                                    @elseif($sub->category === 'other') bg-gradient-to-r from-red-100 to-red-200 text-red-800 dark:from-red-900/50 dark:to-red-800/50 dark:text-red-200
+                                    @else bg-gradient-to-r from-gray-100 to-gray-200 text-gray-800 dark:from-gray-700/50 dark:to-gray-600/50 dark:text-gray-200 @endif">
+                                    <svg class="w-3 h-3 mr-1" fill="currentColor" viewBox="0 0 20 20">
+                                        <path d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" />
+                                    </svg>
+                                    {{ ucfirst($sub->category) }}
+                                </span>
+                                <span
+                                    class="text-xs font-medium px-3 py-1 bg-gray-100 text-gray-600 dark:bg-gray-700 dark:text-gray-300 rounded-full border border-gray-200 dark:border-gray-600">
+                                    {{ ucfirst($sub->type) }}
+                                </span>
+                            </div>
+
+                            <!-- Course Name -->
+                            <h3
+                                class="text-xl font-bold text-gray-900 dark:text-gray-100 mb-3 group-hover:text-indigo-600 dark:group-hover:text-indigo-400 transition-colors">
+                                {{ $sub->name }}
+                            </h3>
+
+                            <!-- Payment Info -->
+                            <div class="space-y-4 mb-6">
+                                <div
+                                    class="flex items-center justify-between p-3 bg-gray-50 dark:bg-gray-700/50 rounded-lg">
+                                    <span
+                                        class="text-gray-500 dark:text-gray-400 text-sm font-medium">Investment</span>
+                                    <span
+                                        class="text-2xl font-bold bg-gradient-to-r from-green-600 to-emerald-600 bg-clip-text text-transparent">
+                                        ${{ number_format($sub->payment, 2) }}
+                                    </span>
+                                </div>
+                                <div class="flex items-center justify-between">
+                                    <span class="text-gray-500 dark:text-gray-400 text-sm">Date payment</span>
+                                    <div
+                                        class="flex items-center text-sm font-medium text-gray-700 dark:text-gray-300">
+                                        <svg class="w-4 h-4 mr-1 text-gray-400" fill="none" stroke="currentColor"
+                                            viewBox="0 0 24 24">
+                                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                                d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z" />
+                                        </svg>
+                                        {{ $sub->payment_date->format('M d, Y') }}
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- Note -->
+                            @if ($sub->note)
+                                <div
+                                    class="p-3 bg-blue-50 dark:bg-blue-900/20 rounded-lg border-l-4 border-blue-500 mb-4">
+                                    <p class="text-gray-700 dark:text-gray-300 text-sm line-clamp-2">
+                                        {{ $sub->note }}</p>
+                                </div>
+                            @endif
+
+                        </div>
+                    </div>
+                @endforeach
+            </div>
+          
+        @endif
     </div>
 
     <!-- Chart.js Script -->
