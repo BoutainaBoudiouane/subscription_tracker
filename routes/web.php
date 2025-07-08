@@ -7,7 +7,7 @@ use App\Http\Controllers\DashboardController;
 
 
 Route::get('/', function () {
-    return view('welcome');
+    return view('landingPage');
 })->name('home');
 
 Route::view('dashboard', 'dashboard')
