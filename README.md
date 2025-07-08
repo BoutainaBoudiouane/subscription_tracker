@@ -1,69 +1,47 @@
-# Laravel + Blade Starter Kit
+# 📦 Subscription Tracker – Smart Expense & Renewal Manager
+
+**Author:** Boutaina Boudiouane
+
+## 📝 Project Description
+Subscription Tracker is a Laravel-based web application that helps users manage and track all their recurring subscriptions such as Netflix, Spotify, Adobe, and more.
+
+The app’s main goal is to help users:
+- Monitor renewal dates
+- Track total spending per month
+- See which subscriptions are active or inactive
+- Avoid missed payments and unnecessary expenses
+
+All this through a clean dashboard, visual statistics, and simple CRUD management.
 
 ---
 
-## Introduction
-
-Our Laravel 12 + Blade starter kit provides the typical functionality found in the Laravel Starter kits, but with a few key differences:
-
-- A CoreUI/AdminLTE inspired design layout
-- Blade + AlpineJS code
-
-This kit aims to fill the gap where there is no simple **Blade only** starter kit available.
-
-Our internal goal at Laravel Daily is to start using this starter kit for our Demo applications, to avoid overwhelming our audience with Vue/Livewire/React if we had used one of the official Laravel 12 starter kits.
-
-**Note:** This is Work in Progress kit, so it will get updates and fixes/features as we go.
-
----
-
-## Screenshots
-
-![](https://laraveldaily.com/uploads/2025/05/LoginPage.png)
-
-![](https://laraveldaily.com/uploads/2025/05/RegisterPage.png)
-
-![](https://laraveldaily.com/uploads/2025/05/DashboardPage.png)
-
-![](https://laraveldaily.com/uploads/2025/05/ProfilePage.png)
+## 🎯 Features
+- Dashboard with:
+  - Total spending for the current month
+  - Graph of monthly spending trends
+  - Number of active and inactive subscriptions
+  - Recent activity (subscriptions to be renewed soon)
+- Add, update, and delete subscriptions
+- Toggle subscription status (active/inactive)
+- Countdown indicators for upcoming renewals
+- Visual stats with charts (using Chart.js)
+- Responsive design built with Tailwind CSS
 
 ---
 
-## What is Inside?
-
-Inside you will find all the functions that you would expect:
-
-- Authentication
-    - Login
-    - Registration
-    - Password Reset Flow
-    - Email Confirmation Flow
-- Dashboard Page
-- Profile Settings
-    - Profile Information Page
-    - Password Update Page
-    - Appearance Preferences
+## 🛠 Technologies Used
+- Laravel (Backend framework)
+- Blade & Livewire (Frontend templating and dynamic components)
+- MySQL (Database)
+- Tailwind CSS (Styling)
+- Chart.js (Charts and visual data)
+- Git & GitHub (Version control)
 
 ---
 
-## How to use it?
+## ⚙️ Installation & Setup
 
-To use this kit, you can install it using:
-
+1. Clone the repository:
 ```bash
-laravel new --using=laraveldaily/starter-kit
-```
-
-From there, you can modify the kit to your needs.
-
----
-
-## Design Elements
-
-If you want to see examples of what design elements we have, you can [visit the Wiki](<https://github.com/LaravelDaily/starter-kit/wiki/Design-Examples-(Raw-Files)>) and see the raw HTML files.
-
----
-
-## Licence
-
-Starter kit is open-sourced software licensed under the MIT license.
+git clone https://github.com/BoutainaBoudiouane/subscription_tracker.git
+cd subscription_tracker
